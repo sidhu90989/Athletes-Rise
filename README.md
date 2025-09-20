@@ -1,18 +1,14 @@
-# Welcome to your Lovable project
+
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/58d72749-fb0e-4d34-a82e-f89175055989
+
 
 ## How can I edit this code?
 
 There are several ways of editing your application.
 
-**Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/58d72749-fb0e-4d34-a82e-f89175055989) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
@@ -22,19 +18,30 @@ The only requirement is having Node.js & npm installed - [install with nvm](http
 
 Follow these steps:
 
+
+## Getting Started
+
+You can use either **npm** or **bun** (if you prefer Bun) to run this project. For most users, npm is recommended.
+
+### Using npm
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
+
+### Using Bun (optional)
+```sh
+# Install dependencies
+bun install
+
+# Start the development server
+bun run dev
+```
+
+The app will be available at the local URL shown in your terminal (usually http://localhost:5173 or http://localhost:8080).
 
 **Edit a file directly in GitHub**
 
@@ -60,14 +67,6 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/58d72749-fb0e-4d34-a82e-f89175055989) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
