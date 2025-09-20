@@ -38,22 +38,20 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Athlete Rise Brand Colors */
-    --athlete-orange: 18 100% 55%;
-    --athlete-blue: 210 100% 50%;
-    --athlete-green: 142 76% 45%;
-    --athlete-purple: 260 80% 60%;
+    /* SAI Brand Colors */
+    --sai-saffron: 18 100% 50%;
+    --sai-green: 142 76% 36%;
+    --sai-navy: 220 39% 11%;
+    --sai-gold: 45 93% 47%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--athlete-orange)), hsl(var(--athlete-blue)));
-    --gradient-performance: linear-gradient(135deg, hsl(var(--athlete-green)), hsl(var(--athlete-blue)));
-    --gradient-assessment: linear-gradient(135deg, hsl(var(--athlete-purple)), hsl(var(--athlete-orange)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--sai-saffron)), hsl(var(--sai-gold)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--sai-green)), hsl(142 76% 26%));
     --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
 
     /* Shadows */
-    --shadow-elegant: 0 10px 30px -10px hsl(var(--athlete-orange) / 0.3);
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--sai-saffron) / 0.2);
     --shadow-card: 0 4px 12px -2px hsl(220 13% 18% / 0.08);
-    --shadow-assessment: 0 8px 25px -5px hsl(var(--athlete-purple) / 0.25);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

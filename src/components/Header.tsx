@@ -1,99 +1,117 @@
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, User, Trophy, Activity } from "lucide-react";
+import { HeroButton } from "@/components/ui/hero-button";
+import { Menu, X, User, Settings, LogOut } from "lucide-react";
 import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import saiLogo from "@/assets/sai-logo.png";
 
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navigation = [
+  const navItems = [
     { name: "Home", href: "#home" },
-    { name: "Assessments", href: "#assessments" },
-    { name: "Features", href: "#features" },
-    { name: "Dashboard", href: "#dashboard" },
+    { name: "Athletes", href: "#athletes" },
+    { name: "Tests", href: "#tests" },
+    { name: "Analytics", href: "#analytics" },
+    { name: "Officials", href: "#officials" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center justify-center w-10 h-10 bg-gradient-hero rounded-lg">
-            <Trophy className="h-6 w-6 text-white" />
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-card">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          {/* Logo Section */}
+          <div className="flex items-center space-x-3">
+            <img src={saiLogo} alt="SAI Logo" className="h-10 w-10" />
+            <div className="hidden sm:block">
+              <h1 className="text-lg font-bold text-sai-navy">Sports Authority of India</h1>
+              <p className="text-xs text-muted-foreground">Talent Assessment Platform</p>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-xl font-bold text-foreground">Athlete Rise</span>
-            <span className="text-xs text-muted-foreground">Sports Assessment Platform</span>
-          </div>
-        </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-sm font-medium text-muted-foreground hover:text-athlete-orange transition-colors"
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-foreground hover:text-sai-saffron transition-colors duration-300 font-medium"
+              >
+                {item.name}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right Section */}
+          <div className="flex items-center space-x-4">
+            {/* User Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="cursor-pointer ring-2 ring-transparent hover:ring-sai-saffron transition-all duration-300">
+                  <AvatarFallback className="bg-gradient-hero text-white font-semibold">
+                    AD
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="px-2 py-1.5">
+                  <p className="text-sm font-medium">Admin User</p>
+                  <p className="text-xs text-muted-foreground">admin@sai.gov.in</p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-destructive">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              className="md:hidden text-foreground hover:text-sai-saffron transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
             >
-              {item.name}
-            </a>
-          ))}
-        </nav>
-
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Button variant="ghost" size="sm">
-            <User className="mr-2 h-4 w-4" />
-            Sign In
-          </Button>
-          <Button className="bg-gradient-hero text-white border-0 hover:opacity-90">
-            <Activity className="mr-2 h-4 w-4" />
-            Start Assessment
-          </Button>
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[280px]">
-            <div className="flex flex-col space-y-6 mt-6">
-              <div className="flex items-center space-x-2">
-                <div className="flex items-center justify-center w-8 h-8 bg-gradient-hero rounded-md">
-                  <Trophy className="h-4 w-4 text-white" />
-                </div>
-                <span className="text-lg font-bold">Athlete Rise</span>
-              </div>
-              
-              <nav className="flex flex-col space-y-4">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="text-sm font-medium text-muted-foreground hover:text-athlete-orange transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </nav>
-
-              <div className="flex flex-col space-y-3 pt-6 border-t border-border">
-                <Button variant="ghost" className="justify-start">
-                  <User className="mr-2 h-4 w-4" />
-                  Sign In
-                </Button>
-                <Button className="bg-gradient-hero text-white border-0 hover:opacity-90 justify-start">
-                  <Activity className="mr-2 h-4 w-4" />
-                  Start Assessment
-                </Button>
-              </div>
+        {isMobileMenuOpen && (
+          <nav className="md:hidden mt-4 pb-4 border-t border-border">
+            <div className="flex flex-col space-y-3 mt-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-foreground hover:text-sai-saffron transition-colors duration-300 font-medium py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              ))}
+              <HeroButton variant="hero" size="lg" className="mt-4">
+                Quick Assessment
+              </HeroButton>
             </div>
-          </SheetContent>
-        </Sheet>
+          </nav>
+        )}
       </div>
     </header>
   );
