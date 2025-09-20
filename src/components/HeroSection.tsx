@@ -1,115 +1,145 @@
-import { HeroButton } from "@/components/ui/hero-button";
-import { Play, Users, Trophy, Shield, Smartphone, BarChart3 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import heroImage from "@/assets/sai-hero.jpg";
+import { 
+  Play, 
+  Trophy, 
+  Target, 
+  Activity,
+  Users,
+  Award,
+  TrendingUp,
+  Smartphone
+} from "lucide-react";
 
 export function HeroSection() {
-  const features = [
-    {
-      icon: <Smartphone className="h-6 w-6" />,
-      title: "Mobile-First",
-      description: "Works on any smartphone, even offline"
-    },
-    {
-      icon: <Shield className="h-6 w-6" />,
-      title: "Blockchain Secure",
-      description: "Tamper-proof assessment records"
-    },
-    {
-      icon: <BarChart3 className="h-6 w-6" />,
-      title: "AI Analysis",
-      description: "Instant performance evaluation"
-    }
+  const stats = [
+    { value: "50K+", label: "Athletes Assessed", icon: <Users className="h-4 w-4" /> },
+    { value: "95%", label: "Accuracy Rate", icon: <Target className="h-4 w-4" /> },
+    { value: "1M+", label: "Tests Completed", icon: <Activity className="h-4 w-4" /> },
+    { value: "24/7", label: "AI Analysis", icon: <TrendingUp className="h-4 w-4" /> },
   ];
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
-          alt="Athletes in training" 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-sai-navy/90 via-sai-navy/70 to-transparent"></div>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-20">
+    <section id="home" className="relative py-20 lg:py-32 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-gradient-subtle"></div>
+      <div className="absolute top-20 right-0 w-96 h-96 bg-athlete-orange/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-athlete-blue/10 rounded-full blur-3xl"></div>
+      
+      <div className="container relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Hero Content */}
-          <div className="text-white space-y-8">
-            <div className="space-y-4">
-              <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
-                <Trophy className="h-4 w-4 text-sai-gold" />
-                <span className="text-sm font-medium">Excellence in Sports</span>
-              </div>
+          {/* Left Content */}
+          <div className="space-y-8">
+            <div className="space-y-6">
+              <Badge variant="outline" className="text-athlete-orange border-athlete-orange">
+                AI-Powered Sports Assessment
+              </Badge>
               
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Discover India's
-                <span className="bg-gradient-hero bg-clip-text text-transparent"> Next Champions</span>
+              <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+                Rise to Your
+                <span className="block bg-gradient-hero bg-clip-text text-transparent">
+                  Athletic Peak
+                </span>
               </h1>
               
-              <p className="text-xl text-gray-200 max-w-2xl leading-relaxed">
-                Revolutionary AI-powered talent assessment platform enabling secure, standardized fitness evaluations across India. From rural villages to urban centers.
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+                Advanced AI technology analyzes your fitness tests in real-time. Get instant feedback, 
+                track progress, and unlock your true athletic potential with our comprehensive assessment platform.
               </p>
             </div>
 
-            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <HeroButton variant="hero" size="xl" className="group">
-                <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-                Start Assessment
-              </HeroButton>
-              <HeroButton variant="outline" size="xl">
-                <Users className="mr-2 h-5 w-5" />
-                Official Dashboard
-              </HeroButton>
+              <Button size="lg" className="bg-gradient-hero text-white border-0 hover:opacity-90 shadow-elegant">
+                <Play className="mr-2 h-5 w-5" />
+                Start Free Assessment
+              </Button>
+              <Button variant="outline" size="lg">
+                <Smartphone className="mr-2 h-5 w-5" />
+                Download App
+              </Button>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-sai-gold">50K+</div>
-                <div className="text-sm text-gray-300">Athletes Assessed</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-sai-gold">500+</div>
-                <div className="text-sm text-gray-300">Districts Covered</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-sai-gold">99.9%</div>
-                <div className="text-sm text-gray-300">Accuracy Rate</div>
-              </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8">
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center space-y-2">
+                  <div className="flex items-center justify-center space-x-2 text-athlete-orange">
+                    {stat.icon}
+                    <span className="text-2xl font-bold">{stat.value}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right Column - Feature Cards */}
-          <div className="space-y-6">
-            {features.map((feature, index) => (
-              <Card 
-                key={index}
-                className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105"
-              >
-                <CardContent className="p-6 flex items-center space-x-4">
-                  <div className="p-3 bg-gradient-hero rounded-lg text-white">
-                    {feature.icon}
+          {/* Right Content - Mock App Preview */}
+          <div className="relative">
+            <Card className="bg-card border-0 shadow-assessment overflow-hidden">
+              <CardContent className="p-0">
+                {/* Phone Mockup */}
+                <div className="relative mx-auto w-80 h-[600px] bg-gradient-to-b from-slate-900 to-slate-800 rounded-[3rem] p-4 shadow-2xl">
+                  <div className="w-full h-full bg-background rounded-[2rem] overflow-hidden">
+                    {/* App Header */}
+                    <div className="bg-gradient-hero p-6 text-white">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-2">
+                          <Trophy className="h-6 w-6" />
+                          <span className="font-bold">Athlete Rise</span>
+                        </div>
+                        <Award className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-lg font-semibold">Welcome Back, Alex!</h3>
+                      <p className="text-white/80 text-sm">Ready for today's assessment?</p>
+                    </div>
+                    
+                    {/* App Content */}
+                    <div className="p-6 space-y-4">
+                      <div className="bg-athlete-green/10 p-4 rounded-lg border border-athlete-green/20">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="font-medium text-athlete-green">Sprint Test</h4>
+                            <p className="text-sm text-muted-foreground">40m dash analysis</p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-lg font-bold text-athlete-green">5.8s</div>
+                            <div className="text-xs text-muted-foreground">Personal Best</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-athlete-purple/10 p-4 rounded-lg border border-athlete-purple/20">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="font-medium text-athlete-purple">Vertical Jump</h4>
+                            <p className="text-sm text-muted-foreground">Height measurement</p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-lg font-bold text-athlete-purple">62cm</div>
+                            <div className="text-xs text-muted-foreground">+5cm improvement</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-athlete-blue/10 p-4 rounded-lg border border-athlete-blue/20">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="font-medium text-athlete-blue">Endurance</h4>
+                            <p className="text-sm text-muted-foreground">VO2 Max estimate</p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-lg font-bold text-athlete-blue">58.5</div>
+                            <div className="text-xs text-muted-foreground">Excellent</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-white">
-                    <h3 className="font-semibold text-lg">{feature.title}</h3>
-                    <p className="text-gray-200">{feature.description}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/50 rounded-full mt-2"></div>
         </div>
       </div>
     </section>

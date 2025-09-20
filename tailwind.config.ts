@@ -47,11 +47,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sai: {
-          saffron: "hsl(var(--sai-saffron))",
-          green: "hsl(var(--sai-green))",
-          navy: "hsl(var(--sai-navy))",
-          gold: "hsl(var(--sai-gold))",
+        athlete: {
+          orange: "hsl(var(--athlete-orange))",
+          blue: "hsl(var(--athlete-blue))",
+          green: "hsl(var(--athlete-green))",
+          purple: "hsl(var(--athlete-purple))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -71,12 +71,14 @@ export default {
       },
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
-        "gradient-success": "var(--gradient-success)",
+        "gradient-performance": "var(--gradient-performance)",
+        "gradient-assessment": "var(--gradient-assessment)",
         "gradient-subtle": "var(--gradient-subtle)",
       },
       boxShadow: {
         elegant: "var(--shadow-elegant)",
         card: "var(--shadow-card)",
+        assessment: "var(--shadow-assessment)",
       },
       transitionTimingFunction: {
         smooth: "var(--transition-smooth)",
