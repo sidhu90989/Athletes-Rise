@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import saiLogo from "@/assets/sai-logo.png";
 
 export function Header() {
@@ -50,6 +51,9 @@ export function Header() {
 
           {/* Right Section */}
           <div className="flex items-center space-x-4">
+            {/* Language Selector */}
+            <LanguageSelector />
+            
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
