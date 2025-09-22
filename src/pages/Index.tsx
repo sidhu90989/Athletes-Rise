@@ -5,6 +5,7 @@ import { AssessmentSection } from "@/components/AssessmentSection";
 import { DashboardPreview } from "@/components/DashboardPreview";
 import { PerformanceAnalysis } from "@/components/PerformanceAnalysis";
 import { Footer } from "@/components/Footer";
+import { ExploreGames } from "@/components/ExploreGames";
 
 const Index = () => {
   return (
@@ -18,6 +19,7 @@ const Index = () => {
         <DashboardPreview />
       </main>
       <Footer />
+      <ExploreGames />
     </div>
   );
 };
