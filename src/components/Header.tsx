@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import saiLogo from "@/assets/sai-logo.png";
 
 export function Header() {
@@ -51,6 +52,9 @@ export function Header() {
 
           {/* Right Section */}
           <div className="flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            
             {/* Language Selector */}
             <LanguageSelector />
             
