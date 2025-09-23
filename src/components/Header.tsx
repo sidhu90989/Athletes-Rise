@@ -1,6 +1,8 @@
 import { HeroButton } from "@/components/ui/hero-button";
+import { Button } from "@/components/ui/button";
 import { Menu, X, User, Settings, LogOut } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +17,7 @@ import saiLogo from "@/assets/sai-logo.png";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Mock auth state
 
   const navItems = [
     { name: "Home", href: "#home" },
@@ -58,36 +61,52 @@ export function Header() {
             {/* Language Selector */}
             <LanguageSelector />
             
-            {/* User Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Avatar className="cursor-pointer ring-2 ring-transparent hover:ring-sai-saffron transition-all duration-300">
-                  <AvatarFallback className="bg-gradient-hero text-white font-semibold">
-                    AD
-                  </AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">Admin User</p>
-                  <p className="text-xs text-muted-foreground">admin@sai.gov.in</p>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Authentication Section */}
+            {isAuthenticated ? (
+              /* User Menu */
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="cursor-pointer ring-2 ring-transparent hover:ring-sai-saffron transition-all duration-300">
+                    <AvatarFallback className="bg-gradient-hero text-white font-semibold">
+                      AD
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium">Admin User</p>
+                    <p className="text-xs text-muted-foreground">admin@sai.gov.in</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    className="text-destructive cursor-pointer"
+                    onClick={() => setIsAuthenticated(false)}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              /* Login Button */
+              <div className="flex items-center space-x-2">
+                <Button variant="ghost" asChild className="text-foreground hover:text-sai-saffron">
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button variant="default" asChild className="bg-sai-saffron hover:bg-sai-saffron/90">
+                  <Link to="/signup">Sign Up</Link>
+                </Button>
+              </div>
+            )}
 
             {/* Mobile Menu Toggle */}
             <button
