@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { X, Gamepad2, Users, Trophy, Target, Zap, Heart, Activity } from "lucide-react";
+import { X, Gamepad2, Users, Trophy, Target, Zap, Heart, Activity, Calendar, MapPin, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 
 interface Player {
   id: string;
@@ -30,6 +31,17 @@ interface Game {
   players: Player[];
 }
 
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  venue: string;
+  sport: string;
+  players: string[];
+  status: "upcoming" | "live" | "completed";
+}
+
 const gamesData: Game[] = [
   {
     id: "cricket",
@@ -52,6 +64,14 @@ const gamesData: Game[] = [
         position: "Captain/Opener",
         stats: { stamina: 90, strength: 85, health: 92, fitness: 91, speed: 82, agility: 84 },
         achievements: ["Captain", "Century Maker", "World Cup Winner"]
+      },
+      {
+        id: "6",
+        name: "MS Dhoni",
+        age: 42,
+        position: "Wicket Keeper",
+        stats: { stamina: 88, strength: 90, health: 93, fitness: 89, speed: 80, agility: 85 },
+        achievements: ["Former Captain", "World Cup Winner", "Finisher"]
       }
     ]
   },
@@ -76,6 +96,14 @@ const gamesData: Game[] = [
         position: "Goalkeeper",
         stats: { stamina: 85, strength: 92, health: 94, fitness: 90, speed: 78, agility: 85 },
         achievements: ["Best Goalkeeper", "Clean Sheets", "National Team"]
+      },
+      {
+        id: "7",
+        name: "Sandesh Jhingan",
+        age: 30,
+        position: "Defender",
+        stats: { stamina: 87, strength: 89, health: 92, fitness: 88, speed: 75, agility: 80 },
+        achievements: ["Defender of Year", "National Team", "ISL Winner"]
       }
     ]
   },
@@ -92,14 +120,67 @@ const gamesData: Game[] = [
         position: "Singles",
         stats: { stamina: 94, strength: 83, health: 96, fitness: 97, speed: 92, agility: 95 },
         achievements: ["Olympic Medalist", "World Champion", "BWF Rankings"]
+      },
+      {
+        id: "8",
+        name: "Saina Nehwal",
+        age: 34,
+        position: "Singles",
+        stats: { stamina: 91, strength: 80, health: 94, fitness: 93, speed: 89, agility: 92 },
+        achievements: ["Olympic Medalist", "World No. 1", "Commonwealth Gold"]
       }
     ]
+  }
+];
+
+const upcomingEvents: Event[] = [
+  {
+    id: "1",
+    title: "IPL Finals 2024",
+    date: "2024-05-26",
+    time: "7:30 PM",
+    venue: "Wankhede Stadium, Mumbai",
+    sport: "Cricket",
+    players: ["Virat Kohli", "Rohit Sharma", "MS Dhoni"],
+    status: "upcoming"
+  },
+  {
+    id: "2",
+    title: "ISL Championship",
+    date: "2024-03-16",
+    time: "8:00 PM",
+    venue: "Salt Lake Stadium, Kolkata",
+    sport: "Football",
+    players: ["Sunil Chhetri", "Gurpreet Sandhu"],
+    status: "upcoming"
+  },
+  {
+    id: "3",
+    title: "BWF World Championship",
+    date: "2024-08-19",
+    time: "2:00 PM",
+    venue: "Gachibowli Stadium, Hyderabad",
+    sport: "Badminton",
+    players: ["P.V. Sindhu", "Saina Nehwal"],
+    status: "upcoming"
+  },
+  {
+    id: "4",
+    title: "India vs Australia ODI",
+    date: "2024-04-10",
+    time: "1:30 PM",
+    venue: "M. Chinnaswamy Stadium, Bangalore",
+    sport: "Cricket",
+    players: ["Virat Kohli", "Rohit Sharma"],
+    status: "live"
   }
 ];
 
 export function ExploreGames() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [currentView, setCurrentView] = useState<"games" | "players" | "officials">("games");
 
   const StatBar = ({ label, value, icon: Icon }: { label: string; value: number; icon: any }) => (
     <div className="flex items-center gap-2 mb-2">
@@ -138,7 +219,9 @@ export function ExploreGames() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-sai-navy flex items-center gap-2">
                 <Gamepad2 className="w-6 h-6 text-sai-saffron" />
-                Explore Games
+                {currentView === "games" ? "Explore Games" : 
+                 currentView === "players" ? `${selectedGame?.name} Players` :
+                 "Officials & Events"}
               </h2>
               <button
                 onClick={() => setIsOpen(false)}
@@ -148,89 +231,238 @@ export function ExploreGames() {
               </button>
             </div>
 
-            {!selectedGame ? (
+            {/* Navigation Tabs */}
+            <div className="flex gap-2 mb-6">
+              <Button
+                variant={currentView === "games" ? "default" : "outline"}
+                size="sm"
+                onClick={() => {
+                  setCurrentView("games");
+                  setSelectedGame(null);
+                  setSelectedPlayer(null);
+                }}
+                className="flex-1"
+              >
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Games
+              </Button>
+              <Button
+                variant={currentView === "officials" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setCurrentView("officials")}
+                className="flex-1"
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                Officials
+              </Button>
+            </div>
+
+            {/* Games View */}
+            {currentView === "games" && !selectedGame && (
               <div className="space-y-4">
                 {gamesData.map((game) => {
                   const Icon = game.icon;
                   return (
                     <Card
                       key={game.id}
-                      className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-sai-saffron/20 hover:border-sai-saffron"
-                      onClick={() => setSelectedGame(game)}
+                      className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-sai-saffron/20 hover:border-sai-saffron relative overflow-hidden"
+                      onClick={() => {
+                        setSelectedGame(game);
+                        setCurrentView("players");
+                      }}
                     >
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-hero rounded-full flex items-center justify-center">
+                          <div className="w-12 h-12 bg-gradient-hero rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                             <Icon className="w-6 h-6 text-white" />
                           </div>
-                          <div>
-                            <h3 className="font-semibold text-sai-navy">{game.name}</h3>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-sai-navy group-hover:text-sai-saffron transition-colors">
+                              {game.name}
+                            </h3>
                             <p className="text-sm text-muted-foreground">{game.category}</p>
                             <Badge variant="secondary" className="mt-1">
                               {game.players.length} Players
                             </Badge>
                           </div>
+                          <Target className="w-5 h-5 text-sai-saffron opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110" />
                         </div>
                       </CardContent>
                     </Card>
                   );
                 })}
               </div>
-            ) : (
+            )}
+
+            {/* Players View */}
+            {currentView === "players" && selectedGame && !selectedPlayer && (
               <div className="space-y-4">
                 <button
-                  onClick={() => setSelectedGame(null)}
+                  onClick={() => {
+                    setCurrentView("games");
+                    setSelectedGame(null);
+                  }}
                   className="flex items-center gap-2 text-sai-saffron hover:text-sai-navy transition-colors mb-4"
                 >
                   ← Back to Games
                 </button>
 
-                <h3 className="text-xl font-bold text-sai-navy mb-4">{selectedGame.name} Players</h3>
+                <div className="grid gap-3">
+                  {selectedGame.players.map((player) => (
+                    <Card 
+                      key={player.id} 
+                      className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-sai-saffron/20 hover:border-sai-saffron"
+                      onClick={() => setSelectedPlayer(player)}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="w-12 h-12 group-hover:scale-110 transition-transform duration-300">
+                            <AvatarImage src={player.avatar} />
+                            <AvatarFallback className="bg-gradient-hero text-white">
+                              {player.name.split(' ').map(n => n[0]).join('')}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-sai-navy group-hover:text-sai-saffron transition-colors">
+                              {player.name}
+                            </h4>
+                            <p className="text-sm text-muted-foreground">
+                              {player.position} • Age {player.age}
+                            </p>
+                            <div className="flex gap-1 mt-1">
+                              {player.achievements.slice(0, 2).map((achievement, index) => (
+                                <Badge key={index} variant="outline" className="text-xs border-sai-saffron/50">
+                                  {achievement}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                          <Target className="w-5 h-5 text-sai-saffron opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
 
-                {selectedGame.players.map((player) => (
-                  <Card key={player.id} className="border-sai-saffron/20">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="w-12 h-12">
-                          <AvatarImage src={player.avatar} />
-                          <AvatarFallback className="bg-gradient-hero text-white">
-                            {player.name.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <CardTitle className="text-lg text-sai-navy">{player.name}</CardTitle>
-                          <p className="text-sm text-muted-foreground">
-                            {player.position} • Age {player.age}
-                          </p>
+            {/* Player Details View */}
+            {selectedPlayer && (
+              <div className="space-y-4">
+                <button
+                  onClick={() => setSelectedPlayer(null)}
+                  className="flex items-center gap-2 text-sai-saffron hover:text-sai-navy transition-colors mb-4"
+                >
+                  ← Back to Players
+                </button>
+
+                <Card className="border-sai-saffron/20">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="w-16 h-16">
+                        <AvatarImage src={selectedPlayer.avatar} />
+                        <AvatarFallback className="bg-gradient-hero text-white text-lg">
+                          {selectedPlayer.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <CardTitle className="text-xl text-sai-navy">{selectedPlayer.name}</CardTitle>
+                        <p className="text-muted-foreground">
+                          {selectedPlayer.position} • Age {selectedPlayer.age}
+                        </p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-semibold text-sai-navy mb-3">Performance Stats</h4>
+                        <StatBar label="Stamina" value={selectedPlayer.stats.stamina} icon={Activity} />
+                        <StatBar label="Strength" value={selectedPlayer.stats.strength} icon={Zap} />
+                        <StatBar label="Health" value={selectedPlayer.stats.health} icon={Heart} />
+                        <StatBar label="Fitness" value={selectedPlayer.stats.fitness} icon={Target} />
+                        <StatBar label="Speed" value={selectedPlayer.stats.speed} icon={Zap} />
+                        <StatBar label="Agility" value={selectedPlayer.stats.agility} icon={Activity} />
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-semibold text-sai-navy mb-3">Achievements</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedPlayer.achievements.map((achievement, index) => (
+                            <Badge key={index} variant="outline" className="border-sai-saffron text-sai-navy">
+                              {achievement}
+                            </Badge>
+                          ))}
                         </div>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        <div>
-                          <h4 className="font-semibold text-sai-navy mb-2">Performance Stats</h4>
-                          <StatBar label="Stamina" value={player.stats.stamina} icon={Activity} />
-                          <StatBar label="Strength" value={player.stats.strength} icon={Zap} />
-                          <StatBar label="Health" value={player.stats.health} icon={Heart} />
-                          <StatBar label="Fitness" value={player.stats.fitness} icon={Target} />
-                          <StatBar label="Speed" value={player.stats.speed} icon={Zap} />
-                          <StatBar label="Agility" value={player.stats.agility} icon={Activity} />
-                        </div>
-                        
-                        <div>
-                          <h4 className="font-semibold text-sai-navy mb-2">Achievements</h4>
-                          <div className="flex flex-wrap gap-1">
-                            {player.achievements.map((achievement, index) => (
-                              <Badge key={index} variant="outline" className="border-sai-saffron text-sai-navy">
-                                {achievement}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {/* Officials & Events View */}
+            {currentView === "officials" && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <Calendar className="w-5 h-5 text-sai-saffron" />
+                  <h3 className="text-lg font-semibold text-sai-navy">Upcoming Events</h3>
+                </div>
+
+                <div className="space-y-3">
+                  {upcomingEvents.map((event) => (
+                    <Card key={event.id} className="border-sai-saffron/20 hover:shadow-md transition-shadow">
+                      <CardContent className="p-4">
+                        <div className="space-y-3">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <h4 className="font-semibold text-sai-navy">{event.title}</h4>
+                              <Badge 
+                                variant={event.status === "live" ? "destructive" : "secondary"}
+                                className="mt-1"
+                              >
+                                {event.status === "live" ? "LIVE" : event.status.toUpperCase()}
                               </Badge>
-                            ))}
+                            </div>
+                            <Badge variant="outline" className="border-sai-saffron text-sai-navy">
+                              {event.sport}
+                            </Badge>
+                          </div>
+
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Calendar className="w-4 h-4" />
+                              {new Date(event.date).toLocaleDateString('en-IN', { 
+                                day: 'numeric', 
+                                month: 'short', 
+                                year: 'numeric' 
+                              })}
+                            </div>
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Clock className="w-4 h-4" />
+                              {event.time}
+                            </div>
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <MapPin className="w-4 h-4" />
+                              {event.venue}
+                            </div>
+                          </div>
+
+                          <div>
+                            <p className="text-sm font-medium text-sai-navy mb-2">Featured Players:</p>
+                            <div className="flex flex-wrap gap-1">
+                              {event.players.map((playerName, index) => (
+                                <Badge key={index} variant="secondary" className="text-xs">
+                                  {playerName}
+                                </Badge>
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
             )}
           </div>
