@@ -1,6 +1,6 @@
 import { HeroButton } from "@/components/ui/hero-button";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, Settings, LogOut } from "lucide-react";
+import { Menu, X, User, Settings, LogOut, Phone } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -24,7 +24,7 @@ export function Header() {
     { name: "Athletes", href: "#athletes" },
     { name: "Tests", href: "#tests" },
     { name: "Analytics", href: "#analytics" },
-    { name: "Officials", href: "#officials" },
+    { name: "Physicians Data", href: "#physicians" },
   ];
 
   return (
@@ -43,13 +43,24 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-foreground hover:text-sai-saffron transition-colors duration-300 font-medium"
-              >
-                {item.name}
-              </a>
+              <div key={item.name} className="flex items-center space-x-2">
+                <a
+                  href={item.href}
+                  className="text-foreground hover:text-sai-saffron transition-colors duration-300 font-medium"
+                >
+                  {item.name}
+                </a>
+                {item.name === "Physicians Data" && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs px-2 py-1 h-6 border-sai-saffron text-sai-saffron hover:bg-sai-saffron hover:text-white"
+                  >
+                    <Phone className="h-3 w-3 mr-1" />
+                    Call
+                  </Button>
+                )}
+              </div>
             ))}
           </nav>
 
