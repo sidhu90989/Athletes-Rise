@@ -404,65 +404,214 @@ export function ExploreGames() {
             {/* Officials & Events View */}
             {currentView === "officials" && (
               <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <Calendar className="w-5 h-5 text-sai-saffron" />
-                  <h3 className="text-lg font-semibold text-sai-navy">Upcoming Events</h3>
+                {/* Dashboard Header */}
+                <div className="bg-gradient-to-r from-sai-saffron/10 to-sai-navy/10 rounded-lg p-4 border border-sai-saffron/20">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h3 className="text-lg font-bold text-sai-navy">Gameweek 8</h3>
+                      <p className="text-sm text-muted-foreground">25 Oct - 1 Nov 2024</p>
+                    </div>
+                    <Badge variant="outline" className="border-sai-saffron text-sai-navy">
+                      Live
+                    </Badge>
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-sai-navy">59</div>
+                      <div className="text-xs text-muted-foreground">Points</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-sai-navy">131</div>
+                      <div className="text-xs text-muted-foreground">Rank</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-sai-navy">17303</div>
+                      <div className="text-xs text-muted-foreground">Total</div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="space-y-3">
-                  {upcomingEvents.map((event) => (
-                    <Card key={event.id} className="border-sai-saffron/20 hover:shadow-md transition-shadow">
-                      <CardContent className="p-4">
-                        <div className="space-y-3">
-                          <div className="flex items-start justify-between">
+                {/* Featured Player Card */}
+                <Card className="border-sai-saffron/20 bg-gradient-to-r from-pink-500/10 to-pink-600/10">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="w-12 h-12">
+                        <AvatarImage src="/placeholder.svg" />
+                        <AvatarFallback className="bg-gradient-hero text-white">FW</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-sai-navy">Floyd Williams</h4>
+                        <p className="text-sm text-muted-foreground">Midfielder #10</p>
+                        <Badge variant="secondary" className="mt-1 bg-pink-500 text-white">
+                          16 points
+                        </Badge>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-medium text-sai-navy">Captain</div>
+                        <div className="text-xs text-muted-foreground">This Week</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Pool History */}
+                <Card className="border-sai-saffron/20">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base text-sai-navy">Pool History</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Gameweek 1-8</span>
+                        <span className="font-medium text-sai-navy">Average: 49 pts</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <span>1,037</span>
+                        <div className="flex-1 h-1 bg-muted rounded-full mx-2">
+                          <div className="h-full w-3/4 bg-gradient-to-r from-sai-saffron to-sai-navy rounded-full"></div>
+                        </div>
+                        <span>49</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Top Transfers */}
+                <Card className="border-sai-saffron/20">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base text-sai-navy">Top Transfers In</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {[
+                        { name: "Lionel", team: "Arsenal", price: "10.5M", count: "104,621" },
+                        { name: "Salaha", team: "Liverpool", price: "13.0M", count: "98,432" },
+                        { name: "Lewandowski", team: "Barcelona", price: "11.5M", count: "87,245" }
+                      ].map((player, index) => (
+                        <div key={index} className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Avatar className="w-8 h-8">
+                              <AvatarFallback className="bg-gradient-hero text-white text-xs">
+                                {player.name.slice(0, 2)}
+                              </AvatarFallback>
+                            </Avatar>
                             <div>
-                              <h4 className="font-semibold text-sai-navy">{event.title}</h4>
+                              <div className="text-sm font-medium text-sai-navy">{player.name}</div>
+                              <div className="text-xs text-muted-foreground">{player.team}</div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm font-medium text-sai-navy">{player.price}</div>
+                            <div className="text-xs text-muted-foreground">{player.count}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Player Selection Dashboard */}
+                <Card className="border-sai-saffron/20">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base text-sai-navy flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      Select Players
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-2">
+                      {gamesData.flatMap(game => 
+                        game.players.slice(0, 4).map((player, index) => (
+                          <div 
+                            key={player.id}
+                            className="group p-2 border border-sai-saffron/20 rounded-lg hover:bg-sai-saffron/5 cursor-pointer transition-all duration-200 hover:border-sai-saffron"
+                            onClick={() => setSelectedPlayer(player)}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Avatar className="w-8 h-8">
+                                <AvatarImage src={player.avatar} />
+                                <AvatarFallback className="bg-gradient-hero text-white text-xs">
+                                  {player.name.split(' ').map(n => n[0]).join('')}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-xs font-medium text-sai-navy truncate">
+                                  {player.name}
+                                </div>
+                                <div className="text-xs text-muted-foreground">
+                                  {player.position}
+                                </div>
+                              </div>
+                              <Target className="w-3 h-3 text-sai-saffron opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Upcoming Events */}
+                <Card className="border-sai-saffron/20">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base text-sai-navy flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      Upcoming Events
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {upcomingEvents.slice(0, 3).map((event) => (
+                        <div key={event.id} className="p-3 border border-sai-saffron/20 rounded-lg hover:bg-sai-saffron/5 transition-colors">
+                          <div className="flex items-start justify-between mb-2">
+                            <div>
+                              <h5 className="text-sm font-semibold text-sai-navy">{event.title}</h5>
                               <Badge 
                                 variant={event.status === "live" ? "destructive" : "secondary"}
-                                className="mt-1"
+                                className="mt-1 text-xs"
                               >
                                 {event.status === "live" ? "LIVE" : event.status.toUpperCase()}
                               </Badge>
                             </div>
-                            <Badge variant="outline" className="border-sai-saffron text-sai-navy">
+                            <Badge variant="outline" className="border-sai-saffron text-sai-navy text-xs">
                               {event.sport}
                             </Badge>
                           </div>
 
-                          <div className="space-y-2 text-sm">
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Calendar className="w-4 h-4" />
+                          <div className="space-y-1 text-xs">
+                            <div className="flex items-center gap-1 text-muted-foreground">
+                              <Calendar className="w-3 h-3" />
                               {new Date(event.date).toLocaleDateString('en-IN', { 
                                 day: 'numeric', 
-                                month: 'short', 
-                                year: 'numeric' 
-                              })}
+                                month: 'short' 
+                              })} • {event.time}
                             </div>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Clock className="w-4 h-4" />
-                              {event.time}
-                            </div>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <MapPin className="w-4 h-4" />
-                              {event.venue}
+                            <div className="flex items-center gap-1 text-muted-foreground">
+                              <MapPin className="w-3 h-3" />
+                              {event.venue.split(',')[0]}
                             </div>
                           </div>
 
-                          <div>
-                            <p className="text-sm font-medium text-sai-navy mb-2">Featured Players:</p>
+                          <div className="mt-2">
                             <div className="flex flex-wrap gap-1">
-                              {event.players.map((playerName, index) => (
+                              {event.players.slice(0, 2).map((playerName, index) => (
                                 <Badge key={index} variant="secondary" className="text-xs">
-                                  {playerName}
+                                  {playerName.split(' ')[0]}
                                 </Badge>
                               ))}
+                              {event.players.length > 2 && (
+                                <Badge variant="outline" className="text-xs">
+                                  +{event.players.length - 2}
+                                </Badge>
+                              )}
                             </div>
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             )}
           </div>
