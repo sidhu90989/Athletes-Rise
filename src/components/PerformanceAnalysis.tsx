@@ -194,7 +194,7 @@ export const PerformanceAnalysis = () => {
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
                       Data secured & <span className="inline-flex items-center gap-1">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                        <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
                         encrypted
                       </span>
                     </p>
