@@ -45,96 +45,145 @@ const medicineData = [
 
 export function PhysiciansData() {
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Healthcare Dashboard</h1>
-            <p className="text-muted-foreground">Comprehensive patient and medical data management</p>
+    <div className="min-h-screen bg-background">
+      <div className="flex h-screen">
+        {/* Sidebar */}
+        <div className="w-64 bg-card border-r border-border p-6">
+          <div className="flex items-center space-x-2 mb-8">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <Heart className="h-5 w-5 text-white" />
+            </div>
+            <span className="text-lg font-semibold">Healthcare</span>
           </div>
-          <div className="flex items-center space-x-3">
-            <Button variant="outline" className="flex items-center space-x-2">
-              <Phone className="h-4 w-4" />
-              <span>Emergency Call</span>
-            </Button>
-            <Button variant="default" className="flex items-center space-x-2">
-              <Video className="h-4 w-4" />
-              <span>Video Consultation</span>
+          
+          <nav className="space-y-2">
+            {[
+              { name: "Dashboard", icon: Activity, active: true },
+              { name: "Appointments", icon: CalendarIcon },
+              { name: "Doctors", icon: Users },
+              { name: "Departments", icon: Activity },
+              { name: "Patients", icon: Users },
+              { name: "Payments", icon: Activity },
+              { name: "Settings", icon: Activity }
+            ].map((item, index) => (
+              <div key={index} className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                item.active ? 'bg-blue-50 text-blue-600' : 'hover:bg-accent'
+              }`}>
+                <item.icon className="h-5 w-5" />
+                <span className="font-medium">{item.name}</span>
+              </div>
+            ))}
+          </nav>
+          
+          <div className="mt-auto pt-8">
+            <Button variant="ghost" className="w-full justify-start text-muted-foreground">
+              <span>LOGOUT</span>
             </Button>
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {statsData.map((stat, index) => (
-            <Card key={index} className="relative overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">{stat.title}</p>
-                    <p className="text-2xl font-bold">{stat.value}</p>
-                    <div className="flex items-center space-x-1 mt-1">
-                      <Badge variant={stat.trend === "up" ? "default" : "destructive"} className="text-xs">
-                        {stat.change} {stat.trend === "up" ? "↑" : "↓"}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground">last 7 days</span>
-                    </div>
+        {/* Main Content */}
+        <div className="flex-1 p-6 overflow-auto">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-4">
+              <input
+                type="text"
+                placeholder="Search anything you want..."
+                className="w-80 px-4 py-2 border border-border rounded-lg bg-background"
+              />
+            </div>
+            <div className="flex items-center space-x-3">
+              <Button variant="ghost" size="sm">
+                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+              </Button>
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-medium">S</span>
+                </div>
+                <span className="font-medium">Smith</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-4 gap-6 mb-6">
+            {statsData.map((stat, index) => (
+              <div key={index} className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-xl">
+                <div className="flex items-center justify-between mb-3">
+                  <div className={`p-2 rounded-lg ${stat.color}`}>
+                    <stat.icon className="h-5 w-5 text-white" />
                   </div>
-                  <div className={`p-3 rounded-full bg-background ${stat.color}`}>
-                    <stat.icon className="h-6 w-6" />
+                  <div className="flex items-center space-x-1">
+                    <Badge variant={stat.trend === "up" ? "default" : "destructive"} className="text-xs">
+                      {stat.change} {stat.trend === "up" ? "↑" : "↓"}
+                    </Badge>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                <div>
+                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-sm text-muted-foreground">{stat.title}</p>
+                  <p className="text-xs text-muted-foreground mt-1">last 7 days</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Calendar and Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-6">
+            {/* Top Row - Calendar and Charts */}
+            <div className="grid grid-cols-4 gap-6">
               {/* Calendar */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span>March 2022</span>
-                    <div className="flex space-x-2">
-                      <Button variant="ghost" size="sm">‹</Button>
-                      <Button variant="ghost" size="sm">›</Button>
+              <Card className="h-fit">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center justify-between text-lg">
+                    <span>March-2022</span>
+                    <div className="flex space-x-1">
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0">‹</Button>
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0">›</Button>
                     </div>
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-7 gap-1 text-center text-xs">
+                <CardContent className="pt-0">
+                  <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2">
                     {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
-                      <div key={day} className="p-2 font-medium text-muted-foreground">{day}</div>
+                      <div key={day} className="p-1 font-medium text-muted-foreground">{day}</div>
                     ))}
-                    {Array.from({ length: 35 }, (_, i) => (
-                      <div key={i} className={`p-2 hover:bg-accent rounded cursor-pointer ${i === 6 ? 'bg-primary text-primary-foreground' : ''}`}>
-                        {i < 3 ? i + 28 : i > 30 ? i - 30 : i - 2}
-                      </div>
-                    ))}
+                  </div>
+                  <div className="grid grid-cols-7 gap-1 text-center text-xs">
+                    {Array.from({ length: 35 }, (_, i) => {
+                      const isActiveWeek = i >= 7 && i <= 13;
+                      return (
+                        <div key={i} className={`p-1 hover:bg-accent rounded cursor-pointer ${
+                          isActiveWeek ? 'bg-blue-100 text-blue-700' : ''
+                        } ${i === 10 ? 'bg-blue-500 text-white' : ''}`}>
+                          {i < 3 ? i + 28 : i > 30 ? i - 30 : i - 2}
+                        </div>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
 
               {/* Department Chart */}
               <Card>
-                <CardHeader>
-                  <CardTitle>Patient Visit by Department</CardTitle>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Patient Visit by Department</CardTitle>
+                  <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                    <span className="flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <span>Weekly</span>
+                    </span>
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="relative w-32 h-32 mx-auto">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-green-500 via-purple-500 to-orange-500"></div>
+                <CardContent className="pt-0">
+                  <div className="relative w-24 h-24 mx-auto mb-4">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500"></div>
                     <div className="absolute inset-2 bg-background rounded-full"></div>
                   </div>
-                  <div className="mt-4 space-y-2">
+                  <div className="space-y-3">
                     {departmentData.map((dept, index) => (
                       <div key={index} className="flex items-center justify-between text-sm">
                         <div className="flex items-center space-x-2">
-                          <div className={`w-3 h-3 rounded-full ${dept.color}`}></div>
+                          <div className={`w-2 h-2 rounded-full ${dept.color}`}></div>
                           <span>{dept.name}</span>
                         </div>
                         <span className="font-medium">{dept.percentage}%</span>
@@ -143,125 +192,135 @@ export function PhysiciansData() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
 
-            {/* Medicine & Health Data */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Current Medications */}
+              {/* Appointment History */}
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Pill className="h-5 w-5" />
-                    <span>Current Medications</span>
-                  </CardTitle>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Appointment History</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  {medicineData.map((med, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-accent/50 rounded-lg">
-                      <div>
-                        <p className="font-medium">{med.name}</p>
-                        <p className="text-sm text-muted-foreground">{med.dosage} - {med.frequency}</p>
+                <CardContent className="pt-0">
+                  <div className="space-y-3">
+                    {appointmentHistory.map((appointment, index) => (
+                      <div key={index} className="flex items-center space-x-3 p-2 hover:bg-accent/50 rounded-lg cursor-pointer">
+                        <div className={`p-2 rounded-lg ${appointment.color} bg-blue-50`}>
+                          <appointment.icon className="h-4 w-4" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium text-sm">{appointment.type}</p>
+                          <p className="text-xs text-muted-foreground">{appointment.time}</p>
+                        </div>
+                        <Button variant="ghost" size="sm" className="text-xs">›</Button>
                       </div>
-                      <Badge variant={med.status === "active" ? "default" : "secondary"}>
-                        {med.status}
-                      </Badge>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
 
-              {/* Health Metrics */}
+              {/* Share Photos */}
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Heart className="h-5 w-5" />
-                    <span>Health Metrics</span>
-                  </CardTitle>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Share Photos</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Heart Rate</span>
-                      <span className="font-medium">72 BPM</span>
-                    </div>
-                    <Progress value={75} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Blood Pressure</span>
-                      <span className="font-medium">120/80</span>
-                    </div>
-                    <Progress value={60} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Oxygen Level</span>
-                      <span className="font-medium">98%</span>
-                    </div>
-                    <Progress value={98} className="h-2" />
-                  </div>
-                  <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                    <div className="flex items-center space-x-2">
-                      <TrendingUp className="h-4 w-4 text-green-600" />
-                      <span className="text-sm text-green-600">All vitals normal</span>
-                    </div>
+                <CardContent className="pt-0">
+                  <div className="grid grid-cols-2 gap-2">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+                        <Pill className="h-6 w-6 text-blue-500" />
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Appointment History */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Appointment History</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {appointmentHistory.map((appointment, index) => (
-                    <div key={index} className="flex items-center space-x-4 p-3 hover:bg-accent/50 rounded-lg cursor-pointer">
-                      <div className={`p-2 rounded-full bg-background ${appointment.color}`}>
-                        <appointment.icon className="h-4 w-4" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium">{appointment.type}</p>
-                        <p className="text-sm text-muted-foreground">{appointment.time}</p>
-                      </div>
-                      <Button variant="ghost" size="sm">View</Button>
+            {/* Bottom Row - Patient Visit by Gender Charts */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* Male Chart */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Patient Visit by Gender</CardTitle>
+                  <div className="flex items-center space-x-4 text-sm">
+                    <span className="flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <span>Male</span>
+                    </span>
+                    <span className="flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+                      <span>Female</span>
+                    </span>
+                    <span className="flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                      <span>Monthly</span>
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="h-32 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4 relative overflow-hidden">
+                    <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-blue-500/20 to-transparent rounded-lg"></div>
+                    <div className="relative">
+                      <svg className="w-full h-16" viewBox="0 0 100 40">
+                        <path
+                          d="M 0,35 Q 20,20 40,25 T 80,15 L 100,20"
+                          stroke="#3b82f6"
+                          strokeWidth="2"
+                          fill="none"
+                        />
+                        <path
+                          d="M 0,30 Q 25,15 50,20 T 100,10"
+                          stroke="#fb923c"
+                          strokeWidth="2"
+                          fill="none"
+                        />
+                      </svg>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                  </div>
+                  <div className="mt-4 flex justify-between text-sm">
+                    <div>
+                      <span className="flex items-center space-x-1">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        <span>Total Male</span>
+                      </span>
+                      <p className="font-bold">60.02%</p>
+                    </div>
+                    <div>
+                      <span className="flex items-center space-x-1">
+                        <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+                        <span>Total Female</span>
+                      </span>
+                      <p className="font-bold">39.08%</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Right Column - Patient List */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Patient List</span>
-                  <Button variant="ghost" size="sm">View All</Button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {patientList.map((patient, index) => (
-                    <div key={index} className="flex items-center space-x-3 p-2 hover:bg-accent/50 rounded-lg cursor-pointer">
-                      <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center font-medium text-sm">
-                        {patient.avatar}
+              {/* Patient List */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center justify-between text-lg">
+                    <span>Patient List</span>
+                    <Button variant="ghost" size="sm" className="text-xs">View All</Button>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="space-y-3 max-h-80 overflow-y-auto">
+                    {patientList.map((patient, index) => (
+                      <div key={index} className="flex items-center space-x-3 p-2 hover:bg-accent/50 rounded-lg cursor-pointer">
+                        <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center font-medium text-xs text-white">
+                          {patient.avatar}
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium text-sm">{patient.name}</p>
+                          <p className="text-xs text-muted-foreground">{patient.gender}, {patient.age}</p>
+                        </div>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                          ⋯
+                        </Button>
                       </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-sm">{patient.name}</p>
-                        <p className="text-xs text-muted-foreground">{patient.gender}, {patient.age}</p>
-                      </div>
-                      <Button variant="ghost" size="sm">
-                        <Phone className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
